@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AI Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #000;
+            color: #fff;
+            padding: 5px;
+        }
+        header {
+            background-color: #007acc;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .card {
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .card img {
+            width: 40px;
+            height: 40px;
+            display: block;
+            margin: 0 auto;
+            object-fit: contain;
+        }
+        .card-content {
+            padding: 5px;
+            text-align: center;
+        }
+        .card-content h2 {
+            margin: 5px 0;
+            font-size: 0.8em;
+            color: #fff;
+        }
+        .card-content p {
+            margin: 0;
+            font-size: 0.7em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>AI Hub</h1>
+</header>
+<div class="container" id="appContainer"></div>
+<script>
+    const apps = [
+        { name: "ChatGPT", isApp: true, category: "Chat, Reasoning", package: "com.openai.chatgpt", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/openai.png" },
+        { name: "DeepSeek", isApp: true, category: "Chat, Reasoning", package: "com.deepseek.chat", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepseek-color.png" },
+        { name: "KIMI", isApp: false, category: "Chat, Deep Reasoning", webUrl: "https://kimi.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/kimi-color.png" },
+        { name: "Perplexity", isApp: true, category: "Research", package: "ai.perplexity.app.android", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/perplexity-color.png" },
+        { name: "Duck.ai", isApp: false, category: "Multi-Model", webUrl: "https://duck.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/bedrock-color.png" },
+        { name: "Microsoft Copilot", isApp: true, category: "Chat", package: "com.microsoft.copilot", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/copilot-color.png" },
+        { name: "Claude", isApp: true, category: "Context", package: "com.anthropic.claude", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/claude-color.png" },
+        { name: "Gemini", isApp: true, category: "Research", package: "com.google.android.apps.bard", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/gemini-color.png" },
+        { name: "Qwen", isApp: false, category: "Chat, Programmer, Image, Video", webUrl: "https://chat.qwenlm.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/qwen-color.png" },
+        { name: "Source Graph", isApp: false, category: "Programmer", webUrl: "https://sourcegraph.com", image: "https://static.otta.com/uploads/images/company-favicons/3357-uxIDO__h_o8q448HCY6SvHqly5F5yrnf4tNeswX29uY.png" },
+        { name: "Deep AI", isApp: false, category: "Chat, Image, Video, Music", webUrl: "https://deepai.org/", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepai.png" },
+        { name: "Groq", isApp: false, category: "Multi-Model", webUrl: "https://groq.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/groq.png" },
+        { name: "Grok (xAI)", isApp: false, category: "Chat, Reasoning", webUrl: "https://grok.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/grok.png" }
+    ];
+
+    const container = document.getElementById("appContainer");
+
+    apps.forEach(app => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <img src="${app.image}" alt="${app.name}" onerror="this.src='https://via.placeholder.com/40x40?text=AI';">
+            <div class="card-content">
+                <h2>${app.name}</h2>
+                <p>${app.category}</p>
+                <br><br>
+                <p>${app.isApp ? "App" : "Website"}</p>
+            </div>
+        `;
+
+        card.addEventListener("click", () => {
+            if (app.isApp) {
+                if (typeof Android !== 'undefined') {
+                    Android.openAppOrPlayStore(app.package);
+                }
+            } else {
+                if (typeof Android !== 'undefined') {
+                    Android.openExternalUrl(app.webUrl);
+                }
+            }
+        });
+
+        container.appendChild(card);
+    });
+    try {
+    apps.forEach(app => {
+        console.log("Lade App: " + app.name);
+    });
+} catch (error) {
+    console.error("Fehler beim Laden der Apps:", error);
+}
+
+</script>
+</body>
+</html>
