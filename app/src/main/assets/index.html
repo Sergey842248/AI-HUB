@@ -75,18 +75,19 @@
 <script>
     const apps = [
         { name: "ChatGPT", isApp: true, category: "Chat, Reasoning", package: "com.openai.chatgpt", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/openai.png" },
-        { name: "DeepSeek", isApp: true, category: "Chat, Reasoning", package: "com.deepseek.chat", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepseek-color.png" },
-        { name: "KIMI", isApp: false, category: "Chat, Deep Reasoning", webUrl: "https://kimi.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/kimi-color.png" },
-        { name: "Perplexity", isApp: true, category: "Research", package: "ai.perplexity.app.android", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/perplexity-color.png" },
-        { name: "Duck.ai", isApp: false, category: "Multi-Model", webUrl: "https://duck.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/bedrock-color.png" },
-        { name: "Microsoft Copilot", isApp: true, category: "Chat", package: "com.microsoft.copilot", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/copilot-color.png" },
         { name: "Claude", isApp: true, category: "Context", package: "com.anthropic.claude", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/claude-color.png" },
-        { name: "Gemini", isApp: true, category: "Research", package: "com.google.android.apps.bard", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/gemini-color.png" },
-        { name: "Qwen", isApp: false, category: "Chat, Reasoning, Programmer, Image, Video", webUrl: "https://chat.qwenlm.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/qwen-color.png" },
-        { name: "Source Graph", isApp: false, category: "Programmer", webUrl: "https://sourcegraph.com", image: "https://static.otta.com/uploads/images/company-favicons/3357-uxIDO__h_o8q448HCY6SvHqly5F5yrnf4tNeswX29uY.png" },
         { name: "Deep AI", isApp: false, category: "Chat, Image, Video, Music", webUrl: "https://deepai.org/", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepai.png" },
+        { name: "DeepSeek", isApp: true, category: "Chat, Reasoning", package: "com.deepseek.chat", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepseek-color.png" },
+        { name: "Duck.ai", isApp: false, category: "Multi-Model", webUrl: "https://duck.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/bedrock-color.png" },
+        { name: "Gemini", isApp: true, category: "Research", package: "com.google.android.apps.bard", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/gemini-color.png" },
+        { name: "Grok (xAI)", isApp: false, category: "Chat, Reasoning", webUrl: "https://grok.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/grok.png" },
         { name: "Groq", isApp: false, category: "Multi-Model", webUrl: "https://groq.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/groq.png" },
-        { name: "Grok (xAI)", isApp: false, category: "Chat, Reasoning", webUrl: "https://grok.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/grok.png" }
+        { name: "Hugging Face", isApp: false, category: "Multi-Model", webUrl: "https://huggingface.co/space", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/huggingface-color.png" },
+        { name: "KIMI", isApp: false, category: "Chat, Deep Reasoning", webUrl: "https://kimi.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/kimi-color.png" },
+        { name: "Microsoft Copilot", isApp: true, category: "Chat", package: "com.microsoft.copilot", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/copilot-color.png" },
+        { name: "Perplexity", isApp: true, category: "Research", package: "ai.perplexity.app.android", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/perplexity-color.png" },
+        { name: "Qwen", isApp: false, category: "Chat, Reasoning, Programmer, Image, Video", webUrl: "https://chat.qwenlm.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/qwen-color.png" },
+        { name: "Source Graph", isApp: false, category: "Programmer", webUrl: "https://sourcegraph.com", image: "https://static.otta.com/uploads/images/company-favicons/3357-uxIDO__h_o8q448HCY6SvHqly5F5yrnf4tNeswX29uY.png" }
     ];
 
     const container = document.getElementById("appContainer");
