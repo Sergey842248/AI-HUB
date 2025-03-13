@@ -40,6 +40,8 @@
             transition: transform 0.3s;
             cursor: pointer;
             padding: 8px;
+            display: flex; /* Flexbox für die Karte */
+            flex-direction: column; /* Inhalt vertikal anordnen */
         }
         .card:hover {
             transform: translateY(-2px);
@@ -54,6 +56,10 @@
         .card-content {
             padding: 5px;
             text-align: center;
+            flex-grow: 1; /* Erlaubt dem Content, den verfügbaren Platz einzunehmen */
+            display: flex; /* Flexbox für den Content */
+            flex-direction: column; /* Inhalt vertikal anordnen */
+            justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
         }
         .card-content h2 {
             margin: 5px 0;
@@ -64,6 +70,9 @@
             margin: 0;
             font-size: 0.7em;
             color: #888;
+        }
+        .app-type {
+            margin-top: auto; /* Schiebt die App-Type-Info nach unten */
         }
     </style>
 </head>
