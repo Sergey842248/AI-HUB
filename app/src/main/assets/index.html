@@ -6,137 +6,216 @@
     <title>AI Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background: #000;
-            color: #fff;
-            padding: 5px;
+          margin: 0;
+          font-family: 'Roboto', sans-serif;
+          background: #000;
+          color: #fff;
+          padding: 5px;
         }
         header {
-            background-color: #007acc;
-            padding: 10px;
-            text-align: center;
-            border-radius: 8px;
-            margin-bottom: 10px;
+          background-color: transparent;
+          padding: 10px;
+          text-align: center;
+          border-radius: 8px;
+          margin-bottom: 10px;
         }
-        header h1 {
-            margin: 0;
-            font-size: 1.2em;
+        header h1 { margin: 0; font-size: 1.2em; }
+        /* Container for Category-Buttons */
+        #homeContainer {
+          display: grid;
+          grid-template-columns: 1fr; /* Changed to single column */
+          gap: 10px;
+          min-height: calc(100vh - 75px); /* 100% of the viewport height minus the header and some padding */
+          margin-bottom: 15px;
+        }
+        .cat-btn {
+          background: #222;
+          border: none;
+          border-radius: 8px;
+          padding: 15px; /* Increased padding for larger buttons */
+          font-size: 0.9em;
+          color: #fff;
+          cursor: pointer;
+          transition: background 0.3s;
+          height: calc((100vh - 75px - (10px * 10))/10);
+        }
+        .cat-btn:hover { background: #444; }
+        /* Container for App-Cards */
+        #appsContainer {
+          display: none;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
         }
         .container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
         }
         .card {
-            background: #111;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(255,255,255,0.1);
-            transition: transform 0.3s;
-            cursor: pointer;
-            padding: 8px;
-            display: flex; /* Flexbox für die Karte */
-            flex-direction: column; /* Inhalt vertikal anordnen */
+          background: #111;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+          transition: transform 0.3s;
+          cursor: pointer;
+          padding: 8px;
+          display: flex;
+          flex-direction: column;
         }
-        .card:hover {
-            transform: translateY(-2px);
-        }
+        .card:hover { transform: translateY(-2px); }
         .card img {
-            width: 40px;
-            height: 40px;
-            display: block;
-            margin: 0 auto;
-            object-fit: contain;
+          width: 40px;
+          height: 40px;
+          display: block;
+          margin: 0 auto;
+          object-fit: contain;
         }
         .card-content {
-            padding: 5px;
-            text-align: center;
-            flex-grow: 1; /* Erlaubt dem Content, den verfügbaren Platz einzunehmen */
-            display: flex; /* Flexbox für den Content */
-            flex-direction: column; /* Inhalt vertikal anordnen */
-            justify-content: space-between; /* Verteilt den Platz zwischen den Elementen */
+          padding: 5px;
+          text-align: center;
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
         }
-        .card-content h2 {
-            margin: 5px 0;
-            font-size: 0.8em;
-            color: #fff;
+        .card-content h2 { margin: 5px 0; font-size: 0.8em; }
+        .card-content p { margin: 0; font-size: 0.7em; color: #888; }
+        .app-type { margin-top: auto; }
+        /* Home-Button in Detailed view */
+        #backHome {
+          background: #333;
+          border: none;
+          border-radius: 8px;
+          padding: 10px;
+          font-size: 0.9em;
+          color: #fff;
+          cursor: pointer;
+          margin-bottom: 15px;
+          transition: background 0.3s;
         }
-        .card-content p {
-            margin: 0;
-            font-size: 0.7em;
-            color: #888;
-        }
-        .app-type {
-            margin-top: auto; /* Schiebt die App-Type-Info nach unten */
-        }
+        #backHome:hover { background: #555; }
     </style>
 </head>
 <body>
 <header>
-    <h1>AI Hub</h1>
+    <h1></h1>
 </header>
-<div class="container" id="appContainer"></div>
+
+<!-- Startpage: Category-Buttons -->
+<div id="homeContainer">
+    <button class="cat-btn" data-cat="all">All</button>
+    <button class="cat-btn" data-cat="Chat">Chat</button>
+    <button class="cat-btn" data-cat="Image">Image</button>
+    <button class="cat-btn" data-cat="Multi-Model">Multi-Model</button>
+    <button class="cat-btn" data-cat="Music">Music</button>
+    <button class="cat-btn" data-cat="Programmer">Programmer</button>
+    <button class="cat-btn" data-cat="Reasoning">Reasoning</button>
+    <button class="cat-btn" data-cat="Research">Research</button>
+    <button class="cat-btn" data-cat="Local">Local</button>
+    <button class="cat-btn" data-cat="Video">Video</button>
+</div>
+
+<!-- Deatiled view: Apps -->
+<div id="appsSection" style="display:none;">
+    <button id="backHome">Home</button>
+    <div id="appsContainer" class="container"></div>
+</div>
+
 <script>
+    // Apps, Data
     const apps = [
-        { name: "ChatGPT", isApp: true, category: "Chat, Reasoning", package: "com.openai.chatgpt", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/openai.png" },
-        { name: "Claude", isApp: true, category: "Context", package: "com.anthropic.claude", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/claude-color.png" },
-        { name: "Deep AI", isApp: false, category: "Chat, Image, Video, Music", webUrl: "https://deepai.org/", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepai.png" },
-        { name: "DeepSeek", isApp: true, category: "Chat, Reasoning", package: "com.deepseek.chat", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepseek-color.png" },
-        { name: "Duck.ai", isApp: false, category: "Multi-Model", webUrl: "https://duck.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/bedrock-color.png" },
-        { name: "Gemini", isApp: true, category: "Research", package: "https://gemini.google.com/", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/gemini-color.png" },
-        { name: "Grok (xAI)", isApp: false, category: "Chat, Reasoning", webUrl: "https://grok.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/grok.png" },
-        { name: "Groq", isApp: false, category: "Multi-Model", webUrl: "https://groq.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/groq.png" },
-        { name: "Hugging Face", isApp: false, category: "Multi-Model", webUrl: "https://huggingface.co/spaces", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/huggingface-color.png" },
-        { name: "KIMI", isApp: false, category: "Chat, Deep Reasoning", webUrl: "https://kimi.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/kimi-color.png" },
-        { name: "Microsoft Copilot", isApp: true, category: "Chat", package: "com.microsoft.copilot", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/copilot-color.png" },
-        { name: "Perplexity", isApp: true, category: "Research", package: "ai.perplexity.app.android", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/perplexity-color.png" },
-        { name: "PocketPal AI", isApp: true, category: "Multi-Model, Local-Host", package: "com.pocketpalai", image: "https://play-lh.googleusercontent.com/BFYQT9Pugt8shdo75MjFZh5F_IMn7btSj8mXknbvSfmVV6JASCKQqcLcERvGdD0iN8A=w480-h960-rw" },
-        { name: "Qwen", isApp: false, category: "Chat, Reasoning, Programmer, Image, Video", webUrl: "https://chat.qwen.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/qwen-color.png" },
-        { name: "Source Graph", isApp: false, category: "Programmer", webUrl: "https://sourcegraph.com", image: "https://static.otta.com/uploads/images/company-favicons/3357-uxIDO__h_o8q448HCY6SvHqly5F5yrnf4tNeswX29uY.png" }
+      { name: "ChatGPT", isApp: true, category: "Chat, Reasoning", package: "com.openai.chatgpt", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/openai.png" },
+      { name: "Claude", isApp: true, category: "Chat, Reasoning", package: "com.anthropic.claude", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/claude-color.png" },
+      { name: "Deep AI", isApp: false, category: "Chat, Image, Video, Music", webUrl: "https://deepai.org/", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepai.png" },
+      { name: "DeepSeek", isApp: true, category: "Chat, Reasoning", package: "com.deepseek.chat", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepseek-color.png" },
+      { name: "Duck.ai", isApp: false, category: "Chat, Multi-Model", webUrl: "https://duck.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/bedrock-color.png" },
+      { name: "Gemini", isApp: true, category: "Chat, Research", package: "https://gemini.google.com/", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/gemini-color.png" },
+      { name: "Grok (xAI)", isApp: false, category: "Chat, Reasoning", webUrl: "https://grok.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/grok.png" },
+      { name: "Groq", isApp: false, category: "Chat, Multi-Model", webUrl: "https://groq.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/groq.png" },
+      { name: "Hugging Face", isApp: false, category: "Chat, Image Multi-Model, Music, Video", webUrl: "https://huggingface.co/spaces", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/huggingface-color.png" },
+      { name: "KIMI", isApp: false, category: "Chat, Reasoning", webUrl: "https://kimi.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/kimi-color.png" },
+      { name: "Microsoft Copilot", isApp: true, category: "Chat, Reasoning", package: "com.microsoft.copilot", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/copilot-color.png" },
+      { name: "Perplexity", isApp: true, category: "Chat, Research", package: "ai.perplexity.app.android", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/perplexity-color.png" },
+      { name: "PocketPal AI", isApp: true, category: "Chat, Multi-Model, Local", package: "com.pocketpalai", image: "https://play-lh.googleusercontent.com/BFYQT9Pugt8shdo75MjFZh5F_IMn7btSj8mXknbvSfmVV6JASCKQqcLcERvGdD0iN8A=w480-h960-rw" },
+      { name: "Qwen", isApp: false, category: "Chat, Reasoning, Programmer, Image, Video", webUrl: "https://chat.qwen.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/qwen-color.png" },
+      { name: "Source Graph", isApp: false, category: "Chat, Programmer", webUrl: "https://sourcegraph.com", image: "https://static.otta.com/uploads/images/company-favicons/3357-uxIDO__h_o8q448HCY6SvHqly5F5yrnf4tNeswX29uY.png" }
     ];
 
-    const container = document.getElementById("appContainer");
+    // Refrence to DOM-Elemente
+    const homeContainer = document.getElementById("homeContainer");
+    const appsSection = document.getElementById("appsSection");
+    const appsContainer = document.getElementById("appsContainer");
+    const backHomeBtn = document.getElementById("backHome");
 
-    apps.forEach(app => {
+    // Function render to Cards in appsContainer
+    function renderApps(filteredApps) {
+      appsContainer.innerHTML = "";
+      filteredApps.forEach(app => {
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-            <img src="${app.image}" alt="${app.name}" onerror="this.src='https://via.placeholder.com/40x40?text=AI';">
-            <div class="card-content">
-                <h2>${app.name}</h2>
-                <p>${app.category}</p>
-                <br><br>
-                <p>${app.isApp ? "App" : "Website"}</p>
-            </div>
+          <img src="${app.image}" alt="${app.name}" onerror="this.src='https://via.placeholder.com/40x40?text=AI';">
+          <div class="card-content">
+            <h2>${app.name}</h2>
+            <p>${app.category}</p>
+            <br><br>
+            <p>${app.isApp ? "App" : "Website"}</p>
+          </div>
         `;
-
         card.addEventListener("click", () => {
-            if (app.isApp) {
-                if (typeof Android !== 'undefined') {
-                    Android.openAppOrPlayStore(app.package);
-                }
-            } else {
-                if (typeof Android !== 'undefined') {
-                    Android.openExternalUrl(app.webUrl);
-                }
+          if (app.isApp) {
+            if (typeof Android !== 'undefined') {
+              Android.openAppOrPlayStore(app.package);
             }
+          } else {
+            if (typeof Android !== 'undefined') {
+              Android.openExternalUrl(app.webUrl);
+            }
+          }
         });
+        appsContainer.appendChild(card);
+      });
+    }
 
-        container.appendChild(card);
+    // Event-Listener for category-Buttons
+document.querySelectorAll(".cat-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    const cat = button.getAttribute("data-cat").toLowerCase();
+    let filteredApps;
+    if (cat === "all") {
+      filteredApps = apps; // show all apps
+    } else {
+      // Filter Apps by category id
+      filteredApps = apps.filter(app =>
+        app.category.toLowerCase().includes(cat)
+      );
+    }
+    renderApps(filteredApps);
+    //  change to detailed view
+    homeContainer.style.display = "none";
+    appsSection.style.display = "block";
+    appsContainer.style.display = "grid";
+  });
+});
+
+
+    // Event-Listener for Home-Button in  Detailed view
+    backHomeBtn.addEventListener("click", () => {
+      appsSection.style.display = "none";
+      appsContainer.style.display = "none";
+      homeContainer.style.display = "grid";
     });
+
+    // Optional: For testing: logging all Apps in console
     try {
-    apps.forEach(app => {
-        console.log("Lade App: " + app.name);
-    });
-} catch (error) {
-    console.error("Fehler beim Laden der Apps:", error);
-}
-
+      apps.forEach(app => {
+        console.log("Load App: " + app.name);
+      });
+    } catch (error) {
+      console.error("Error while loading Apps:", error);
+    }
 </script>
 </body>
 </html>
