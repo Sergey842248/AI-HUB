@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
         webView.loadUrl("file:///android_asset/index.html");
     }
+    @Override
+    public void onBackPressed() {
+        // Rufen Sie die JavaScript-Funktion goBackToHome() im WebView auf
+        super.onBackPressed();
+        webView.loadUrl("javascript:goBackToHome()");
+    }
 
     public class WebAppInterface {
         @JavascriptInterface
