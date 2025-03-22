@@ -95,7 +95,11 @@
           margin-bottom: 15px;
           transition: background 0.3s;
         }
-        #backHome:hover { background: #555; }
+        .pricing {
+            margin-top: 5px;
+            font-size: 0.7em;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
@@ -162,7 +166,7 @@
             <p>${app.category}</p>
             <br><br>
             <p>${app.isApp ? "App" : "Website"}</p>
-            <p class="pricing"></p>
+            <p class="pricing">${app.pricing}</p>
           </div>
         `;
         card.addEventListener("click", () => {
