@@ -178,21 +178,7 @@
         appsContainer.appendChild(card);
       });
     }
-  function goBackToHome() {
-    const appsSection = document.getElementById("appsSection");
-    const appsContainer = document.getElementById("appsContainer");
-    const homeContainer = document.getElementById("homeContainer");
 
-    // If Detailed view is visible > navigate to startpage
-    if (appsSection.style.display === "block") {
-      appsSection.style.display = "none";
-      appsContainer.style.display = "none";
-      homeContainer.style.display = "grid";
-    } else {
-
-      window.history.back();
-    }
-  }
     // Event-Listener for category-Buttons
 document.querySelectorAll(".cat-btn").forEach(button => {
   button.addEventListener("click", () => {

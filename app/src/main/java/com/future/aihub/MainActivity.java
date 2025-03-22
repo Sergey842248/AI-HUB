@@ -1,6 +1,8 @@
 package com.future.aihub;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setAllowFileAccess(true);
         webSettings.setAllowContentAccess(true);
 
-
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
 
         webView.setWebViewClient(new WebViewClient() {
@@ -48,12 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
         webView.loadUrl("file:///android_asset/index.html");
     }
-    @Override
-    public void onBackPressed() {
-        // Rufen Sie die JavaScript-Funktion goBackToHome() im WebView auf
-        super.onBackPressed();
-        webView.loadUrl("javascript:goBackToHome()");
-    }
 
     public class WebAppInterface {
         @JavascriptInterface
@@ -73,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
         @JavascriptInterface
         public void openExternalUrl(String url) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack(); // Geht zur vorherigen Seite zurück
+        } else {
+            webView.loadUrl("file:///android_asset/index.html"); // Zur Startseite zurückkehren
         }
     }
 }
