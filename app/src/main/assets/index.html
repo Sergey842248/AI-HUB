@@ -130,25 +130,26 @@
 <script>
     // Apps, Data
     const apps = [
-      { name: "ChatGPT", isApp: true, category: "Chat, Image, Reasoning, Research", pricing: "Partly Free", package: "com.openai.chatgpt", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/openai.png" },
-      { name: "ChatGLM", isApp: false, category: "Chat, Image, Research, Reasoning, Video", pricing: "Partly Free", webUrl: "https://chatglm.cn/", image: "https://cdn-1.webcatalog.io/catalog/chatglm/chatglm-icon-filled-256.webp?v=1714782904780" },
-      { name: "Claude", isApp: true, category: "Chat, Reasoning", pricing: "Partly Free", package: "com.anthropic.claude", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/claude-color.png" },
-      { name: "Deep AI", isApp: false, category: "Chat, Image, Video, Music", pricing: "Partly Free", webUrl: "https://deepai.org/", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepai.png" },
-      { name: "DeepSeek", isApp: true, category: "Chat, Reasoning, Research", pricing: "Free", package: "com.deepseek.chat", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/deepseek-color.png" },
-      { name: "Duck.ai", isApp: false, category: "Chat, Multi-Model", pricing: "Free", webUrl: "https://duck.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/bedrock-color.png" },
-      { name: "Gemini", isApp: true, category: "Chat, Research", pricing: "Partly Free", package: "com.google.android.apps.bard", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/gemini-color.png" },
-      { name: "Grok (xAI)", isApp: true, category: "Chat, Reasoning, Research", pricing: "Partly Free", package: "ai.x.grok", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/grok.png" },
-      { name: "Groq", isApp: false, category: "Chat, Multi-Model", pricing: "Free", webUrl: "https://groq.com", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/groq.png" },
-      { name: "Hugging Face", isApp: false, category: "Chat, Image, Multi-Model, Music, Video", pricing: "Free", webUrl: "https://huggingface.co/spaces", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/huggingface-color.png" },
-      { name: "Hugging Face Chat", isApp: false, category: "Chat, Image Multi-Model", pricing: "Free", webUrl: "https://huggingface.co/chat", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/huggingface-color.png" },
-      { name: "KIMI", isApp: false, category: "Chat, Reasoning", pricing: "Free", webUrl: "https://kimi.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/kimi-color.png" },
-      { name: "Microsoft Copilot", isApp: true, category: "Chat, Reasoning", pricing: "Free", package: "com.microsoft.copilot", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/copilot-color.png" },
-      { name: "Mistral", isApp: true, category: "Chat, Image, Programmer, Research, Reasoning", pricing: "Partly Free", package: "ai.mistral.chat", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.44.0/files/dark/mistral-color.png" },
-      { name: "Perplexity", isApp: true, category: "Chat, Research", pricing: "Partly Free", package: "ai.perplexity.app.android", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/perplexity-color.png" },
-      { name: "Personal AI (PI)", isApp: true, category: "Chat", pricing: "Free", package: "ai.inflection.pi", image: "https://play-lh.googleusercontent.com/Ef7is-Xonqhs2agdsGarpTS_c1Is6Yvk-JhnL3qNvU1Nwdc7kn6Dml2IuCqlfa9Nuzk" },
-      { name: "PocketPal AI", isApp: true, category: "Chat, Multi-Model, Local", pricing: "Free", package: "com.pocketpalai", image: "https://play-lh.googleusercontent.com/BFYQT9Pugt8shdo75MjFZh5F_IMn7btSj8mXknbvSfmVV6JASCKQqcLcERvGdD0iN8A=w480-h960-rw" },
-      { name: "Qwen", isApp: false, category: "Chat, Reasoning, Research, Programmer, Image, Video", pricing: "Free", webUrl: "https://chat.qwen.ai", image: "https://registry.npmmirror.com/@lobehub/icons-static-png/1.24.0/files/dark/qwen-color.png" },
-      { name: "Source Graph", isApp: false, category: "Chat, Programmer", pricing: "Partly Free", webUrl: "https://sourcegraph.com", image: "https://static.otta.com/uploads/images/company-favicons/3357-uxIDO__h_o8q448HCY6SvHqly5F5yrnf4tNeswX29uY.png" }
+      { name: "ChatGPT", isApp: true, category: "Chat, Image, Reasoning, Research", pricing: "Partly Free", package: "com.openai.chatgpt", image: "./ChatGPT.png" },
+      { name: "ChatGLM", isApp: false, category: "Chat, Image, Research, Reasoning, Video", pricing: "Partly Free", webUrl: "https://chatglm.cn/", image: "./ChatGLM.webp" },
+      { name: "Claude", isApp: true, category: "Chat, Reasoning", pricing: "Partly Free", package: "com.anthropic.claude", image: "./Claude.png" },
+      { name: "Deep AI", isApp: false, category: "Chat, Image, Video, Music", pricing: "Partly Free", webUrl: "https://deepai.org/", image: "./DeepAI.png" },
+      { name: "DeepSeek", isApp: true, category: "Chat, Reasoning, Research", pricing: "Free", package: "com.deepseek.chat", image: "./DeepSeek.png" },
+      { name: "DeepSite", isApp: false, category: "Programmer", pricing: "Free", webUrl: "https://enzostvs-deepsite.hf.space/", image: "./DeepSite.jpg" },
+      { name: "Duck.ai", isApp: false, category: "Chat, Multi-Model", pricing: "Free", webUrl: "https://duck.ai", image: "./DuckAI.png" },
+      { name: "Gemini", isApp: true, category: "Chat, Research", pricing: "Partly Free", package: "com.google.android.apps.bard", image: "./Gemini.png" },
+      { name: "Grok (xAI)", isApp: true, category: "Chat, Reasoning, Research", pricing: "Partly Free", package: "ai.x.grok", image: "./Grok.png" },
+      { name: "Groq", isApp: false, category: "Chat, Multi-Model", pricing: "Free", webUrl: "https://groq.com", image: "./groq.png" },
+      { name: "Hugging Face", isApp: false, category: "Chat, Image, Multi-Model, Music, Video", pricing: "Free", webUrl: "https://huggingface.co/spaces", image: "./HuggingFace.png" },
+      { name: "Hugging Face Chat", isApp: false, category: "Chat, Image Multi-Model", pricing: "Free", webUrl: "https://huggingface.co/chat", image: "./HuggingFace.png" },
+      { name: "KIMI", isApp: false, category: "Chat, Reasoning", pricing: "Free", webUrl: "https://kimi.ai", image: "./Kimi.png" },
+      { name: "Microsoft Copilot", isApp: true, category: "Chat, Reasoning", pricing: "Free", package: "com.microsoft.copilot", image: "./MS-Copilot.png" },
+      { name: "Mistral", isApp: true, category: "Chat, Image, Programmer, Research, Reasoning", pricing: "Partly Free", package: "ai.mistral.chat", image: "./Mistral.png" },
+      { name: "Perplexity", isApp: true, category: "Chat, Research", pricing: "Partly Free", package: "ai.perplexity.app.android", image: "./Perplexity.png" },
+      { name: "Personal AI (PI)", isApp: true, category: "Chat", pricing: "Free", package: "ai.inflection.pi", image: "./PersonalAI.png" },
+      { name: "PocketPal AI", isApp: true, category: "Chat, Multi-Model, Local", pricing: "Free", package: "com.pocketpalai", image: "./PocketPal.webp" },
+      { name: "Qwen", isApp: false, category: "Chat, Reasoning, Research, Programmer, Image, Video", pricing: "Free", webUrl: "https://chat.qwen.ai", image: "./Qwen.png" },
+      { name: "Source Graph", isApp: false, category: "Chat, Programmer", pricing: "Partly Free", webUrl: "https://sourcegraph.com", image: "./SourceGraph.png" }
     ];
 
     // Refrence to DOM-Elemente
