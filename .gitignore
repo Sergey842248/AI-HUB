@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea/cody_project_settings.xml
+.idea/.sourcegraph/cody_settings.json
+.gitignore
