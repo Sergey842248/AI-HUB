@@ -101,6 +101,41 @@
             color: #aaa;
         }
     </style>
+    <style>
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background: #222;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 300px;
+        }
+        .popup-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: #333;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+        .popup-button:hover {
+            background: #444;
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -127,11 +162,14 @@
     <div id="appsContainer" class="container"></div>
 </div>
 
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup-content" id="popupContent"></div>
+</div>
 <script>
     // Apps, Data
     const apps = [
       { name: "ChatGPT", isApp: true, category: "Chat, Image, Reasoning, Research", pricing: "Partly Free", package: "com.openai.chatgpt", image: "./ChatGPT.png" },
-      { name: "ChatGLM", isApp: false, category: "Chat, Image, Research, Reasoning, Video", pricing: "Partly Free", webUrl: "https://chatglm.cn/", image: "./ChatGLM.webp" },
+      { name: "ChatGLM", isApp: false, category: "Chat, Image, Research, Reasoning, Video", pricing: "Partly Free", webUrl: "https://chatglm.cn/?lang=en", image: "./ChatGLM.webp" },
       { name: "Claude", isApp: true, category: "Chat, Reasoning", pricing: "Partly Free", package: "com.anthropic.claude", image: "./Claude.png" },
       { name: "Deep AI", isApp: false, category: "Chat, Image, Video, Music", pricing: "Partly Free", webUrl: "https://deepai.org/", image: "./DeepAI.png" },
       { name: "DeepSeek", isApp: true, category: "Chat, Reasoning, Research", pricing: "Free", package: "com.deepseek.chat", image: "./DeepSeek.png" },
@@ -139,12 +177,13 @@
       { name: "Duck.ai", isApp: false, category: "Chat, Multi-Model", pricing: "Free", webUrl: "https://duck.ai", image: "./DuckAI.png" },
       { name: "Gemini", isApp: true, category: "Chat, Research", pricing: "Partly Free", package: "com.google.android.apps.bard", image: "./Gemini.png" },
       { name: "Grok (xAI)", isApp: true, category: "Chat, Reasoning, Research", pricing: "Partly Free", package: "ai.x.grok", image: "./Grok.png" },
-      { name: "Groq", isApp: false, category: "Chat, Multi-Model", pricing: "Free", webUrl: "https://groq.com", image: "./groq.png" },
+      { name: "Groq", isApp: false, category: "Chat, Multi-Model", pricing: "Partly Free", webUrl: "https://openrouter.ai/", image: "./groq.png" },
       { name: "Hugging Face", isApp: false, category: "Chat, Image, Multi-Model, Music, Video", pricing: "Free", webUrl: "https://huggingface.co/spaces", image: "./HuggingFace.png" },
       { name: "Hugging Face Chat", isApp: false, category: "Chat, Image Multi-Model", pricing: "Free", webUrl: "https://huggingface.co/chat", image: "./HuggingFace.png" },
       { name: "KIMI", isApp: false, category: "Chat, Reasoning", pricing: "Free", webUrl: "https://kimi.ai", image: "./Kimi.png" },
       { name: "Microsoft Copilot", isApp: true, category: "Chat, Image, Reasoning", pricing: "Free", package: "com.microsoft.copilot", image: "./MS-Copilot.png" },
       { name: "Mistral", isApp: true, category: "Chat, Image, Programmer, Research, Reasoning", pricing: "Partly Free", package: "ai.mistral.chat", image: "./Mistral.png" },
+      { name: "Open Router", isApp: false, category: "Multi-Model", pricing: "Partly Free", webUrl: "https://openrouter.ai/models", image: "./openrouter.png" },
       { name: "Perplexity", isApp: true, category: "Chat, Research", pricing: "Partly Free", package: "ai.perplexity.app.android", image: "./Perplexity.png" },
       { name: "Personal AI (PI)", isApp: true, category: "Chat", pricing: "Free", package: "ai.inflection.pi", image: "./PersonalAI.png" },
       { name: "PocketPal AI", isApp: true, category: "Chat, Multi-Model, Local", pricing: "Free", package: "com.pocketpalai", image: "./PocketPal.webp" },
@@ -176,13 +215,19 @@
           </div>
         `;
         card.addEventListener("click", () => {
-          if (app.isApp) {
-            if (typeof Android !== 'undefined') {
-              Android.openAppOrPlayStore(app.package);
-            }
+          // Check if the app has special handling
+          const specialApp = specialApps[app.name];
+          if (specialApp) {
+            showPopup(specialApp.options);
           } else {
-            if (typeof Android !== 'undefined') {
-              Android.openExternalUrl(app.webUrl);
+            if (app.isApp) {
+              if (typeof Android !== 'undefined') {
+                Android.openAppOrPlayStore(app.package);
+              }
+            } else {
+              if (typeof Android !== 'undefined') {
+                Android.openExternalUrl(app.webUrl);
+              }
             }
           }
         });
@@ -226,6 +271,83 @@ document.querySelectorAll(".cat-btn").forEach(button => {
       });
     } catch (error) {
       console.error("Error while loading Apps:", error);
+    }
+
+    // Configuration object for apps with special handling
+    const specialApps = {
+        'Open Router': {
+            options: [
+                { text: 'Free', url: 'https://openrouter.ai/models?max_price=0' },
+                { text: 'Paid', url: 'https://openrouter.ai/models?min_price=0.1' },
+                { text: 'All', url: 'https://openrouter.ai/models' }
+              ]
+        }
+
+    };
+
+    function showPopup(options) {
+        const overlay = document.getElementById('popupOverlay');
+        const content = document.getElementById('popupContent');
+        content.innerHTML = '';
+        
+        options.forEach(option => {
+            const button = document.createElement('button');
+            button.className = 'popup-button';
+            button.textContent = option.text;
+            button.onclick = () => {
+                if (typeof Android !== 'undefined') {
+                    Android.openExternalUrl(option.url);
+                }
+                overlay.style.display = 'none';
+            };
+            content.appendChild(button);
+        });
+        
+        overlay.style.display = 'flex';
+    }
+
+    // Close popup when clicking outside
+    document.getElementById('popupOverlay').addEventListener('click', (e) => {
+        if (e.target.id === 'popupOverlay') {
+            e.target.style.display = 'none';
+        }
+    });
+
+    // Modify the card click event handler
+    function renderApps(filteredApps) {
+        appsContainer.innerHTML = "";
+        filteredApps.forEach(app => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+                <img src="${app.image}" alt="${app.name}" onerror="this.src='https://via.placeholder.com/40x40?text=AI';">
+                <div class="card-content">
+                    <h2>${app.name}</h2>
+                    <p>${app.category}</p>
+                    <br><br>
+                    <p>${app.isApp ? "App" : "Website"}</p>
+                    <p class="pricing">${app.pricing}</p>
+                </div>
+            `;
+            card.addEventListener("click", () => {
+                // Check if the app has special handling
+                const specialApp = specialApps[app.name];
+                if (specialApp) {
+                    showPopup(specialApp.options);
+                } else {
+                    if (app.isApp) {
+                        if (typeof Android !== 'undefined') {
+                            Android.openAppOrPlayStore(app.package);
+                        }
+                    } else {
+                        if (typeof Android !== 'undefined') {
+                            Android.openExternalUrl(app.webUrl);
+                        }
+                    }
+                }
+            });
+            appsContainer.appendChild(card);
+        });
     }
 </script>
 </body>
