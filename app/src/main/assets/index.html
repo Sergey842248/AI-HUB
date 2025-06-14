@@ -145,7 +145,9 @@
 <!-- Startpage: Category-Buttons -->
 <div id="homeContainer">
     <button class="cat-btn" data-cat="all">All</button>
+    <button class="cat-btn" data-cat="Agent">Agent</button>
     <button class="cat-btn" data-cat="Chat">Chat</button>
+    <button class="cat-btn" data-cat="High Token">High Token</button>
     <button class="cat-btn" data-cat="Image">Image</button>
     <button class="cat-btn" data-cat="Multi-Model">Multi-Model</button>
     <button class="cat-btn" data-cat="Music">Music</button>
@@ -154,6 +156,7 @@
     <button class="cat-btn" data-cat="Research">Research</button>
     <button class="cat-btn" data-cat="Local">Local</button>
     <button class="cat-btn" data-cat="Video">Video</button>
+    <button class="cat-btn" data-cat="All">Details</button>
 </div>
 
 <!-- Deatiled view: Apps -->
@@ -167,6 +170,7 @@
 </div>
 <script>
     // Apps, Data
+    let currentCategory = "all"; // Added global variable
     const apps = [
       { name: "ChatGPT", isApp: true, category: "Chat, Image, Reasoning, Research", pricing: "Partly Free", package: "com.openai.chatgpt", image: "./ChatGPT.png" },
       { name: "ChatGLM", isApp: false, category: "Chat, Image, Research, Reasoning, Video", pricing: "Partly Free", webUrl: "https://chatglm.cn/?lang=en", image: "./ChatGLM.webp" },
@@ -182,6 +186,9 @@
       { name: "Hugging Face Chat", isApp: false, category: "Chat, Image Multi-Model", pricing: "Free", webUrl: "https://huggingface.co/chat", image: "./HuggingFace.png" },
       { name: "KIMI", isApp: true, category: "Chat, Reasoning", pricing: "Free", package: "com.moonshot.kimichat", image: "./Kimi.png" },
       { name: "Microsoft Copilot", isApp: true, category: "Chat, Image, Reasoning", pricing: "Free", package: "com.microsoft.copilot", image: "./MS-Copilot.png" },
+      { name: "Minimax01", isApp: false, category: "Agent,Chat, High Token, Image, Research, Reasoning", pricing: "Free", webUrl: "https://chat.minimax.io/, image:" ./Minimax01.png" },
+      { name: "Mistral", isApp: false, category: "Chat, Image, Programmer, Research, Reasoning", pricing: "Partly Free", webUrl: "https://mistral.ai/", image: "./Mistral.png" },
+      { name: "Mistral AI", isApp: true, category: "Chat, Image, Programmer, Research, Reasoning", pricing: "Partly Free", package: "ai.mistral.chat", image: "./Mistral.png" },
       { name: "Mistral", isApp: true, category: "Chat, Image, Programmer, Research, Reasoning", pricing: "Partly Free", package: "ai.mistral.chat", image: "./Mistral.png" },
       { name: "Open Router", isApp: false, category: "Multi-Model", pricing: "Partly Free", webUrl: "https://openrouter.ai/models", image: "./openrouter.png" },
       { name: "Perplexity", isApp: true, category: "Chat, Research", pricing: "Partly Free", package: "ai.perplexity.app.android", image: "./Perplexity.png" },
@@ -239,6 +246,7 @@
 document.querySelectorAll(".cat-btn").forEach(button => {
   button.addEventListener("click", () => {
     const cat = button.getAttribute("data-cat").toLowerCase();
+    currentCategory = cat; // Update current category
     let filteredApps;
     if (cat === "all") {
       filteredApps = apps; // show all apps
@@ -281,8 +289,13 @@ document.querySelectorAll(".cat-btn").forEach(button => {
                 { text: 'Paid', url: 'https://openrouter.ai/models?min_price=0.1' },
                 { text: 'All', url: 'https://openrouter.ai/models' }
               ]
+        },
+        'Minimax01': {
+            options: [
+                { text: 'Chat', url: 'https://chat.minimax.io/' },
+                { text: 'Agent', url: 'https://agent.minimax.io/' }
+              ]
         }
-
     };
 
     function showPopup(options) {
@@ -331,17 +344,23 @@ document.querySelectorAll(".cat-btn").forEach(button => {
             `;
             card.addEventListener("click", () => {
                 // Check if the app has special handling
-                const specialApp = specialApps[app.name];
-                if (specialApp) {
-                    showPopup(specialApp.options);
+                if (app.name === "Minimax01" && currentCategory === "agent") {
+                    if (typeof Android !== 'undefined') {
+                        Android.openExternalUrl("https://agent.minimax.io/");
+                    }
                 } else {
-                    if (app.isApp) {
-                        if (typeof Android !== 'undefined') {
-                            Android.openAppOrPlayStore(app.package);
-                        }
+                    const specialApp = specialApps[app.name];
+                    if (specialApp) {
+                        showPopup(specialApp.options);
                     } else {
-                        if (typeof Android !== 'undefined') {
-                            Android.openExternalUrl(app.webUrl);
+                        if (app.isApp) {
+                            if (typeof Android !== 'undefined') {
+                                Android.openAppOrPlayStore(app.package);
+                            }
+                        } else {
+                            if (typeof Android !== 'undefined') {
+                                Android.openExternalUrl(app.webUrl);
+                            }
                         }
                     }
                 }
