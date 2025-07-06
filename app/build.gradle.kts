@@ -10,8 +10,8 @@ android {
         applicationId = "com.future.aihub"
         minSdk = 24
         targetSdk = 35
-        versionCode = 30
-        versionName = "3.0"
+        versionCode = 31
+        versionName = "3.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
