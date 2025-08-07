@@ -6,7 +6,7 @@ Installation:
 Features:
 - Categorised
 - Open Play-Store link to app (if existing)
-- Open website Support (dependig on app)
+- Open website Support (depending on app)
 - Pricing information
 - Feature information
 - Use local images (no online dependencies for images)
