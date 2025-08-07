@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.future.aihub"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.future.aihub"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 31
         versionName = "3.1"
 
